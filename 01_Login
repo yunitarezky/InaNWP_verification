@@ -1,7 +1,7 @@
 ####### FIRST LOGIN ##########
-ssh -p (port_number) (nama_user)@(ip_adress)
-# port number ?
-# nama user tr01 .. tr25
-# ip address ?
-# anda diminta memasukan password default (coawst)
-# setelah itu anda diminta untuk memasukan password baru (2x)
+ssh -p 2022 trxx@182.16.251.41
+
+# port number (2022)
+# nama user tr11 .. tr50
+# ip address (182.16.251.41)
+# anda diminta memasukan password (hpc)
