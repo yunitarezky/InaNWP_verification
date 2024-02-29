@@ -1,8 +1,9 @@
-###### RUNNING INANWP ######
+###### RUNNING INANWP NON-ASIMILASI ######
 #pastikan semua module sudah terload
 #ml list
 #jika tidak gunakan perintah 'ml restore hpc_mod'
 #pastikan ada di $HOME masing-masing
+
 #1. Ungrib
 mkdir -p WDIR/inanwp
 cd WDIR/inanwp
@@ -44,80 +45,7 @@ gedit job.mpi
 
 sbatch job.mpi
 
-gedit namelist.input
-=================================================================================
-     74 rtm_option = 2,
-     75 crtm_coef_path ="/home/(nama user)/WRF/WRFDA/var/run/crtm_coeffs_2.3.0",
-     76 only_sea_rad = .false.,
-=================================================================================
-
-cp wrfinput_d01 wrfinput_d02 wrfbdy_d01 temp
-ln -sf ${HOME}/WRF/WRFDA/var/run/radiance_info  ./radiance_info
-ln -sf ${HOME}/WRF/WRFDA/var/run/ahi_info  ./ahi_info
-ln -sf ${HOME}/WRF/WRFDA/var/run/VARBC.in  ./VARBC.in
-cp temp/wrfinput_d01  ./fg
-ln -sf ${HOME}/WRF/WRFDA/run/LANDUSE.TBL ./LANDUSE.TBL
-ln -sf ${HOME}/WRF/WRFDA/var/build/da_wrfvar.exe ./da_wrfvar.exe
-cp /opt/ohpc/pub/examples/slurm/job.mpi .
-gedit job.mpi
-
-#domain 2
-ln -sf ${TRAIN_DIR}/data/inanwp/2023-09-09_12_00_00.d02.ctl.ob.radar ./ob.radar
-ln -sf obs_gts_2023-09-09_12:00:00.3DVAR ./ob.ascii
-ln -sf ${TRAIN_DIR}/data/inanwp/NC_H09_20230909_1200_R21_FLDK.02401_02401.nc ./L1AHITBR
-ln -sf ${TRAIN_DIR}/data/inanwp/NC_H09_20230909_1200_L2CLP010_FLDK.02401_02401.nc ./L2AHICLP
-cp ${TRAIN_DIR}/data/inanwp/namelist.input.da02 ./namelist.input
-
-gedit namelist.input
-=================================================================================
-     74 rtm_option = 2,
-     75 crtm_coef_path ="/home/(nama user)/WRF/WRFDA/var/run/crtm_coeffs_2.3.0",
-     76 only_sea_rad = .false.,
-=================================================================================
-
-ln -sf ${HOME}/WRF/WRFDA/var/run/radiance_info  ./radiance_info
-ln -sf ${HOME}/WRF/WRFDA/var/run/ahi_info  ./ahi_info
-ln -sf ${HOME}/WRF/WRFDA/var/run/VARBC.in  ./VARBC.in
-cp temp/wrfinput_d02  ./fg
-ln -sf ${HOME}/WRF/WRFDA/run/LANDUSE.TBL ./LANDUSE.TBL
-ln -sf ${HOME}/WRF/WRFDA/var/build/da_wrfvar.exe ./da_wrfvar.exe
-
-gedit job.mpi
-
-#ubah beberapa line berikut
-=================================================================================
-      1 #!/bin/bash
-      2
-      3 #SBATCH -J da_wrfvar               # Job name
-      4 #SBATCH -o log_dawrfvar.out   # Name of stdout output file (%j expands to jobId)
-      5 #SBATCH -N 1                  # Total number of nodes requested
-      6 #SBATCH -n 10                 # Total number of mpi tasks requested
-      7 #SBATCH -t 01:30:00           # Run time (hh:mm:ss) - 1.5 hours
-      8
-      9 # Launch MPI-based executable
-     10
-     11 mpirun ./da_wrfvar.exe
-=================================================================================
-
-sbatch job.mpi
-mv wrfvar_output temp/wrfinput_d02.da
-
-#6. update_bc
-#pastikan semua module sudah terload
-#ml list
-#jika tidak gunakan perintah 'ml restore coa_mod'
-ln -sf ${HOME}/WRF/WRFDA/var/build/da_update_bc.exe .
-cp temp/wrfbdy_d01 .
-cp temp/wrfinput_d01.da ./wrfvar_output
-cp temp/wrfinput_d01 ./wrfinput_d01
-ln -sf ${TRAIN_DIR}/data/inanwp/parame.in .
-ln -sf ${HOME}/WRF/WRFDA/var/build/da_update_bc.exe .
-./da_update_bc.exe
-rm wrfinput_d01
-mv wrfvar_output wrfinput_d01
-cp temp/wrfinput_d02.da ./wrfinput_d02
-
-#6. Wrf.exe
+#4. Wrf.exe
 ln -sf ${HOME}/WRF/WRF-4.2/run/RRTM* .
 ln -sf ${HOME}/WRF/WRF-4.2/run/ozone* .
 ln -sf ${HOME}/WRF/WRF-4.2/run/aerosol* .
@@ -143,3 +71,9 @@ gedit job.mpi
 =================================================================================
 
 sbatch job.mpi
+
+#cek antrian job
+queue
+
+#cek proses job
+tail -f log_wrf.out
