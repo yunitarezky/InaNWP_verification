@@ -2,6 +2,6 @@
 ssh -p 2022 trxx@182.16.251.41
 
 # port number (2022)
-# nama user tr11 .. tr50
+# nama user (tr11 .. tr50)
 # ip address (182.16.251.41)
 # anda diminta memasukan password (hpc)
