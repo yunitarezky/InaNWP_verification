@@ -34,3 +34,6 @@ ml save hpc_mod
 
 #6. restore saved module
 ml restore hpc_mod
+
+#7. menghapus module
+ml purge
