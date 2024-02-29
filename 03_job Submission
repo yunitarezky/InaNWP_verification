@@ -1,0 +1,45 @@
+###### JOB SUBMISSION ######
+#Job management menggunakan slurm
+#Beberapa perintah dasar slurm yang digunakan
+#1. Melihat traffic yang sedang berjalan
+squeue
+
+#2. Melihat partition list compute node
+sinfo
+
+#3. Melihat konfigurasi compute node
+scontrol show node
+
+#4. Melihat jobs
+scontrol show jobs
+
+#5. Canceling job
+scancel (jobs id)
+#jobs id dapat dilihat pada perintah squeue. 
+# Masing-masing user hanya dapat meng cancel jobs nya sendiri
+
+#6. Submitting jobs
+mpicc -O3 /opt/ohpc/pub/examples/mpi/hello.c
+#pastikan module openmpi sudah di load
+#akan terbentuk binary a.out
+cp /opt/ohpc/pub/examples/slurm/job.mpi .
+gedit job.mpi
+
+#ubah beberapa line berikut
+=================================================================================
+#!/bin/bash
+
+#SBATCH -J test               # Job name
+#SBATCH -o log.out         # Name of stdout output file (%j expands to jobId)
+#SBATCH -N 1                  # Total number of nodes requested
+#SBATCH -n 10                 # Total number of mpi tasks requested
+#SBATCH -t 01:30:00           # Run time (hh:mm:ss) - 1.5 hours
+
+# Launch MPI-based executable
+
+mpirun ./a.out
+=================================================================================
+
+sbatch job.mpi
+#submit job
+#check file log.out
