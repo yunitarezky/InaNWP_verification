@@ -30,7 +30,7 @@ ml load libpng/1.6.37
 ml load zlib/1.2.11
 
 #5. save loaded module
-ml save coa_mod
+ml save hpc_mod
 
 #6. restore saved module
-ml restore coa_mod
+ml restore hpc_mod
