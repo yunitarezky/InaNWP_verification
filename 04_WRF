@@ -1,7 +1,7 @@
 ###### RUNNING INANWP ######
 #pastikan semua module sudah terload
 #ml list
-#jika tidak gunakan perintah 'ml restore coa_mod'
+#jika tidak gunakan perintah 'ml restore hpc_mod'
 #pastikan ada di $HOME masing-masing
 #1. Ungrib
 mkdir -p WDIR/inanwp
@@ -44,24 +44,6 @@ gedit job.mpi
 
 sbatch job.mpi
 
-#4. obsproc
-ln -sf ${HOME}/WRF/WRFDA/var/obsproc/src/obsproc.exe .
-ln -sf ${HOME}/WRF/WRFDA/var/obsproc/msfc.tbl .
-ln -sf ${HOME}/WRF/WRF-4.2/var/obsproc/obserr.txt .
-ln -sf ${TRAIN_DIR}/data/inanwp/grobs.2023090912 .
-ln -sf ${TRAIN_DIR}/data/inanwp/namelist.obsproc .
-./obsproc.exe
-
-#5. da_wrfvar
-#domain 1 
-mkdir temp
-ln -sf ${TRAIN_DIR}/data/inanwp/2023-09-09_12_00_00.d01.ctl.ob.radar ./ob.radar
-ln -sf obs_gts_2023-09-09_12:00:00.3DVAR ./ob.ascii
-ln -sf ${TRAIN_DIR}/data/inanwp/NC_H09_20230909_1200_R21_FLDK.02401_02401.nc ./L1AHITBR
-ln -sf ${TRAIN_DIR}/data/inanwp/NC_H09_20230909_1200_L2CLP010_FLDK.02401_02401.nc ./L2AHICLP
-cp ${TRAIN_DIR}/data/inanwp/be.dat.cv3 ./be.dat
-cp ${TRAIN_DIR}/data/inanwp/namelist.input.da01 ./namelist.input
-
 gedit namelist.input
 =================================================================================
      74 rtm_option = 2,
@@ -78,24 +60,6 @@ ln -sf ${HOME}/WRF/WRFDA/run/LANDUSE.TBL ./LANDUSE.TBL
 ln -sf ${HOME}/WRF/WRFDA/var/build/da_wrfvar.exe ./da_wrfvar.exe
 cp /opt/ohpc/pub/examples/slurm/job.mpi .
 gedit job.mpi
-
-#ubah beberapa line berikut
-=================================================================================
-      1 #!/bin/bash
-      2
-      3 #SBATCH -J da_wrfvar               # Job name
-      4 #SBATCH -o log_dawrfvar.out   # Name of stdout output file (%j expands to jobId)
-      5 #SBATCH -N 1                  # Total number of nodes requested
-      6 #SBATCH -n 10                 # Total number of mpi tasks requested
-      7 #SBATCH -t 01:30:00           # Run time (hh:mm:ss) - 1.5 hours
-      8
-      9 # Launch MPI-based executable
-     10
-     11 mpirun ./da_wrfvar.exe
-=================================================================================
-
-sbatch job.mpi
-mv wrfvar_output temp/wrfinput_d01.da
 
 #domain 2
 ln -sf ${TRAIN_DIR}/data/inanwp/2023-09-09_12_00_00.d02.ctl.ob.radar ./ob.radar
@@ -167,8 +131,8 @@ gedit job.mpi
 =================================================================================
       1 #!/bin/bash
       2
-      3 #SBATCH -J wrf               # Job name
-      4 #SBATCH -o log_wrf.out            # Name of stdout output file (%j expands to jobId)
+      3 #SBATCH -J wrf                # Job name
+      4 #SBATCH -o log_wrf.out        # Name of stdout output file (%j expands to jobId)
       5 #SBATCH -N 1                  # Total number of nodes requested
       6 #SBATCH -n 10                 # Total number of mpi tasks requested
       7 #SBATCH -t 01:30:00           # Run time (hh:mm:ss) - 1.5 hours
