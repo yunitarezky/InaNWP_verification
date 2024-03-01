@@ -7,16 +7,16 @@
 #1. Ungrib
 mkdir -p WDIR/inanwp
 cd WDIR/inanwp
-cp ${TRAIN_DIR}/data/inanwp/namelist.wps .
-ln -sf ${WRF_DIR}/ungrib/Variable_Tables/Vtable.GFS ./Vtable
+cp ${WRF_DIR}/namelist.wps .
+ln -sf ${WRF_DIR}/Vtable .
 ln -sf ${WRF_DIR}/link_grib.csh .
-ln -sf ${WRF_DIR}/ungrib.exe
+ln -sf ${WRF_DIR}/ungrib.exe .
 ./link_grib.csh ${TRAIN_DIR}/data/gfs/2023090912/gfs.t12z.pgrb2.0p25.f* 
 ./ungrib.exe
 
 #2. Metgrid
 cp ${TRAIN_DIR}/data/inanwp/geo_em* .
-ln -sf ${WRF_DIR}/metgrid/METGRID.TBL .
+ln -sf ${WRF_DIR}/METGRID.TBL .
 ln -sf ${WRF_DIR}/metgrid.exe .
 ./metgrid.exe
 
@@ -24,7 +24,8 @@ ln -sf ${WRF_DIR}/metgrid.exe .
 
 #3. Real.exe
 cp ${TRAIN_DIR}/data/inanwp/namelist.input ./namelist.input
-ln -sf ${WRF_DIR}/run/real.exe .
+ln -sf ${WRF_DIR}/real.exe .
+
 cp /opt/ohpc/pub/examples/slurm/job.mpi .
 gedit job.mpi
 
