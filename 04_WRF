@@ -23,7 +23,7 @@ ln -sf ${WRF_DIR}/metgrid.exe .
 #bisa menggunakan sbatch jika lama
 
 #3. Real.exe
-cp ${WRF_DIR}/namelist.wps .
+cp ${WRF_DIR}/namelist.input .
 ln -sf /opt/ohpc/pub/model/WRF/WRF-4.2/run/real.exe .
 
 cp /opt/ohpc/pub/examples/slurm/job.mpi .
