@@ -77,4 +77,4 @@ sbatch job.mpi
 queue
 
 #cek proses job
-tail -f log_wrf.out
+tail -f rsl.error.00000
