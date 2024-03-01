@@ -73,7 +73,7 @@ gedit job.mpi
 sbatch job.mpi
 
 #cek antrian job
-queue
+squeue
 
 #cek proses job
 tail -f rsl.error.00000
