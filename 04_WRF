@@ -8,23 +8,23 @@
 mkdir -p WDIR/inanwp
 cd WDIR/inanwp
 cp ${TRAIN_DIR}/data/inanwp/namelist.wps .
-ln -sf ${HOME}/WRF/WPS-4.2/ungrib/Variable_Tables/Vtable.GFS ./Vtable
-ln -sf ${HOME}/WRF/WPS-4.2/link_grib.csh .
-ln -sf ${HOME}/WRF/WPS-4.2/ungrib.exe
+ln -sf ${WRF_DIR}/ungrib/Variable_Tables/Vtable.GFS ./Vtable
+ln -sf ${WRF_DIR}/link_grib.csh .
+ln -sf ${WRF_DIR}/ungrib.exe
 ./link_grib.csh ${TRAIN_DIR}/data/gfs/2023090912/gfs.t12z.pgrb2.0p25.f* 
 ./ungrib.exe
 
 #2. Metgrid
 cp ${TRAIN_DIR}/data/inanwp/geo_em* .
-ln -sf ${HOME}/WRF/WPS-4.2/metgrid/METGRID.TBL .
-ln -sf ${HOME}/WRF/WPS-4.2/metgrid.exe .
+ln -sf ${WRF_DIR}/metgrid/METGRID.TBL .
+ln -sf ${WRF_DIR}/metgrid.exe .
 ./metgrid.exe
 
 #bisa menggunakan sbatch jika lama
 
 #3. Real.exe
 cp ${TRAIN_DIR}/data/inanwp/namelist.input ./namelist.input
-ln -sf ${HOME}/WRF/WRF-4.2/run/real.exe .
+ln -sf ${WRF_DIR}/run/real.exe .
 cp /opt/ohpc/pub/examples/slurm/job.mpi .
 gedit job.mpi
 
@@ -46,11 +46,11 @@ gedit job.mpi
 sbatch job.mpi
 
 #4. Wrf.exe
-ln -sf ${HOME}/WRF/WRF-4.2/run/RRTM* .
-ln -sf ${HOME}/WRF/WRF-4.2/run/ozone* .
-ln -sf ${HOME}/WRF/WRF-4.2/run/aerosol* .
-ln -sf ${HOME}/WRF/WRF-4.2/run/*.TBL .
-ln -sf ${HOME}/WRF/WRF-4.2/run/wrf.exe .
+ln -sf ${WRF_DIR}/run/RRTM* .
+ln -sf ${WRF_DIR}/run/ozone* .
+ln -sf ${WRF_DIR}/run/aerosol* .
+ln -sf ${WRF_DIR}/run/*.TBL .
+ln -sf ${WRF_DIR}/run/wrf.exe .
 cp ${TRAIN_DIR}/data/inanwp/namelist.input .
 
 gedit job.mpi
