@@ -10,6 +10,7 @@ export TRAIN_DIR=/mnt-storage1/TRAINING
 export DATA_DIR=${TRAIN_DIR}/data
 export SCRIPT_DIR=${TRAIN_DIR}/script
 export SOFT_DIR=${TRAIN_DIR}/software
+export WRF_DIR=${TRAIN_DIR}/WRF/WPS-4.2
 #save and exit file
 
 #3. modules (ml atau module)
