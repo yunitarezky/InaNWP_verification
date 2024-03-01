@@ -1,4 +1,7 @@
 ####### FIRST LOGIN ##########
+#Create Keygen
+ssh-keygen -t rsa
+ssh-copy-id -p 2022 trxx@182.16.251.41
 ssh -p 2022 trxx@182.16.251.41
 
 # port number (2022)
